@@ -11,14 +11,25 @@ datasource db {
 }
 
 model gd_user {
-  user_id    Int     @default(autoincrement()) @id
+  user_id  Int  @default(autoincrement()) @id
   user_email String  @unique
   user_password  String?
   user_first_name  String?
   user_last_name String?
   user_status Int?
-  user_create_at String?
-  user_update_at String?
+  user_create_at DateTime?
+  user_update_at DateTime?
   user_create_by String?
   user_update_by  String?
+  user_tokens gd_token[]
+}
+
+model gd_token {
+  access_token String 
+  user_id Int
+  referesh_token String ?
+  token_create_at String ?
+  token_expired_at String ?
+  user gd_user? @relation(fields: [user_id], references: [user_id]) 
+  @@id([access_token, user_id])
 }
